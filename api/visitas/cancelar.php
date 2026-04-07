@@ -1,13 +1,13 @@
 <?php
-require '../../../../auth/session.php';
+require '../../auth/session.php';
 verificarRol(['residente']);
-require '../../../../config/database.php';
+require '../../config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $visit_id = $_POST['id'];
     $usuario_id = $_SESSION['usuario_id'];
 
-    // 1. Obtener el residente_id real para asegurar que solo cancele sus propias visitas
+    // 1. Obtener residente_id real para asegurar pertenencia
     $stmt = $pdo->prepare("SELECT id FROM residentes WHERE usuario_id = :usuario_id");
     $stmt->execute([':usuario_id' => $usuario_id]);
     $residente = $stmt->fetch();
@@ -25,8 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
     }
 
-    // Volver a la lista (retrocediendo un nivel desde la carpeta 'visitas' extra)
-    header('Location: ../mis_visitas.php');
+    header('Location: ../../views/visitas/mis_visitas.php?success=cancelado');
     exit;
 }
 ?>
