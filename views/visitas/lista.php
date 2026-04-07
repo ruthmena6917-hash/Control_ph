@@ -1,14 +1,14 @@
 <?php
-require '../auth/session.php';
+require '../../auth/session.php';
 verificarRol(['seguridad']);
-require '../config/database.php';
+require '../../config/database.php';
 
 $busqueda = $_GET['busqueda'] ?? '';
 $fecha = $_GET['fecha'] ?? date('Y-m-d');
 
 $sql = "SELECT * FROM visitas 
         WHERE DATE(fecha_programada) = :fecha
-        AND (nombre_visitante LIKE :busqueda OR cedula_visitante LIKE :busqueda)";
+        AND (visitante_nombre LIKE :busqueda OR visitante_cedula LIKE :busqueda)";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute([
@@ -22,7 +22,7 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lista</title>
+    <title>Lista de Visitas</title>
 </head>
 <body>
 
@@ -46,19 +46,19 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php foreach ($visitas as $v): ?>
 <tr>
     <td><?= $v['fecha_programada'] ?></td>
-    <td><?= $v['nombre_visitante'] ?></td>
-    <td><?= $v['cedula_visitante'] ?></td>
+    <td><?= $v['visitante_nombre'] ?></td>
+    <td><?= $v['visitante_cedula'] ?></td>
     <td><?= $v['estado'] ?></td>
     <td>
         <?php if ($v['estado'] == 'pendiente'): ?>
-            <form action="marcar_entrada.php" method="POST">
+            <form action="../../api/visitas/marcar_entrada.php" method="POST">
                 <input type="hidden" name="visita_id" value="<?= $v['id'] ?>">
                 <button>Entrada</button>
             </form>
         <?php endif; ?>
 
         <?php if ($v['estado'] == 'en_edificio'): ?>
-            <form action="marcar_salida.php" method="POST">
+            <form action="../../api/visitas/marcar_salida.php" method="POST">
                 <input type="hidden" name="visita_id" value="<?= $v['id'] ?>">
                 <button>Salida</button>
             </form>
@@ -68,6 +68,9 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php endforeach; ?>
 
 </table>
+
+<br>
+<a href="../dashboard_seguridad.php">Volver al Panel</a>
 
 </body>
 </html>
