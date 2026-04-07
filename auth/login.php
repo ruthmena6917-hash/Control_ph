@@ -50,7 +50,7 @@ switch ($usuario['rol']){
                 header("location: ../views/dashboard_seguridad.php");
                 break;
         case 'residente':
-                header("location: ../views/dashboard_residente.php");
+                header("location: ../modulo_residente/dashboard_residente.php");
                 break;
         default:
                 header("Location: ../views/login.php?error=1");
