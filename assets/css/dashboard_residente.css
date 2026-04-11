@@ -1,0 +1,176 @@
+/* CSS específico para Dashboard Residente - Igual estructura que el gerente */
+
+/* Botones de acción consistentes con estilo del gerente */
+.btn-action {
+    background: var(--azul-primario);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
+}
+
+.btn-action:hover {
+    background: var(--azul-claro);
+    transform: translateY(-1px);
+}
+
+/* Botones específicos para residente */
+.btn-action.registrar {
+    background: #28a745;
+}
+
+.btn-action.registrar:hover {
+    background: #218838;
+}
+
+.btn-action.listar {
+    background: var(--azul-primario);
+}
+
+.btn-action.listar:hover {
+    background: var(--azul-claro);
+}
+
+/* Sección de bienvenida del residente */
+.welcome-section {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.welcome-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.welcome-title {
+    color: var(--azul-primario);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.welcome-subtitle {
+    color: var(--texto-suave);
+    margin-bottom: 2rem;
+}
+
+/* Grid de acciones del residente */
+.actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Botones grandes del residente */
+.btn-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    min-height: 80px;
+}
+
+.btn-menu.register {
+    background: var(--azul-primario);
+    color: white;
+}
+
+.btn-menu.register:hover {
+    background: var(--azul-claro);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(30, 58, 95, 0.2);
+}
+
+.btn-menu.list {
+    background: white;
+    color: var(--azul-primario);
+    border: 2px solid var(--azul-primario);
+}
+
+.btn-menu.list:hover {
+    background: #f0f4f8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(30, 58, 95, 0.1);
+}
+
+/* Sección de estadísticas del residente */
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--azul-primario);
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: var(--texto-suave);
+    font-size: 0.9rem;
+}
+
+/* Animaciones consistentes con el gerente */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.welcome-section,
+.stats-section {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Mejoras responsive */
+@media (max-width: 480px) {
+    .welcome-section {
+        padding: 2rem 1rem;
+    }
+    
+    .welcome-title {
+        font-size: 1.5rem;
+    }
+    
+    .btn-menu {
+        padding: 1rem;
+        font-size: 0.9rem;
+        min-height: 60px;
+    }
+}

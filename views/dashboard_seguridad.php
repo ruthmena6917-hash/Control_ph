@@ -23,6 +23,7 @@ $finalizadas = count(array_filter($visitas, fn($v) => $v['estado'] == 'finalizad
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Seguridad - Control de Visitas</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard_seguridad.css">
 </head>
 <body>
     <header class="main-header">
@@ -56,6 +57,10 @@ $finalizadas = count(array_filter($visitas, fn($v) => $v['estado'] == 'finalizad
         </div>
 
         <!-- Tabla de Visitas del Día -->
+        <div class="search-wrapper">
+            <input type="text" id="buscador" class="search-input" placeholder="Buscar por nombre o cédula...">
+            <input type="date" id="filtro-fecha" class="search-input" value="<?= $hoy ?>">
+        </div>
         <div class="content-box">
             <div class="box-header">Visitas Programadas para Hoy</div>
             <table class="custom-table">
@@ -71,11 +76,11 @@ $finalizadas = count(array_filter($visitas, fn($v) => $v['estado'] == 'finalizad
                 </thead>
                 <tbody>
                     <?php if (empty($visitas)): ?>
-                        <tr><td colspan="6" style="text-align: center; color: var(--texto-suave); padding: 2rem;">No hay visitas programadas para hoy.</td></tr>
+                        <tr><td colspan="6" class="no-visitas">No hay visitas programadas para hoy.</td></tr>
                     <?php endif; ?>
                     <?php foreach ($visitas as $v): ?>
-                    <tr style="cursor: pointer;" onclick="window.location.href='visitas/lista.php?id=<?= $v['id'] ?>'">
-                        <td style="font-weight: 500;"><?= $v['visitante_nombre'] ?></td>
+                    <tr>
+                        <td class="visitante-nombre"><?= $v['visitante_nombre'] ?></td>
                         <td><?= $v['visitante_cedula'] ?></td>
                         <td><?= date('H:i', strtotime($v['fecha_programada'])) ?></td>
                         <td>
@@ -91,9 +96,17 @@ $finalizadas = count(array_filter($visitas, fn($v) => $v['estado'] == 'finalizad
                             ?>
                             <span class="badge-status <?= $badgeClass ?>"><?= $estadoLabel ?></span>
                         </td>
-                        <td><?= $v['placa_vehiculo'] ?? '<span style="color: #ccc;">N/A</span>' ?></td>
+                        <td><?= $v['placa_vehiculo'] ?? '<span class="placa-na">N/A</span>' ?></td>
                         <td>
-                            <a href="visitas/lista.php?id=<?= $v['id'] ?>" class="btn-action">Validar Detalles</a>
+                            <?php if ($v['estado'] == 'pendiente'): ?>
+                                <button class="btn-action" onclick="marcarEntrada(<?= $v['id'] ?>)">Marcar Entrada</button>
+                                <a href="visitas/lista.php?id=<?= $v['id'] ?>" class="btn-action">Ver Detalles</a>
+                            <?php elseif ($v['estado'] == 'en_edificio'): ?>
+                                <button class="btn-action" onclick="marcarSalida(<?= $v['id'] ?>)">Marcar Salida</button>
+                                <a href="visitas/lista.php?id=<?= $v['id'] ?>" class="btn-action">Ver Detalles</a>
+                            <?php else: ?>
+                                <a href="visitas/lista.php?id=<?= $v['id'] ?>" class="btn-action">Ver Detalles</a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -101,5 +114,6 @@ $finalizadas = count(array_filter($visitas, fn($v) => $v['estado'] == 'finalizad
             </table>
         </div>
     </main>
+<script src="../assets/js/dashboard_seguridad.js"></script>
 </body>
 </html>

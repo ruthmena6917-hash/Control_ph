@@ -3,7 +3,6 @@ require_once '../auth/session.php';
 verificarRol(['gerente']);
 require_once '../config/database.php';
 
-// Obtener tipos de servicios de la base de datos
 $servicios_opciones = $pdo->query("SELECT nombre FROM servicios")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
@@ -21,7 +20,7 @@ $servicios_opciones = $pdo->query("SELECT nombre FROM servicios")->fetchAll(PDO:
         .btn-edit { color: var(--azul-primario); cursor: pointer; border: none; background: none; font-size: 1.1rem; padding: 5px; }
         .section-title { margin-top: 2.5rem; margin-bottom: 1rem; color: var(--azul-primario); font-weight: 700; font-size: 1.25rem; display: flex; align-items: center; gap: 10px; }
         .section-title::before { content: ""; display: inline-block; width: 4px; height: 20px; background: var(--azul-primario); border-radius: 4px; }
-        
+
         /* Modales */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
         .modal-content { background: white; margin: 5% auto; padding: 2rem; border-radius: 12px; width: 90%; max-width: 500px; }
@@ -32,6 +31,11 @@ $servicios_opciones = $pdo->query("SELECT nombre FROM servicios")->fetchAll(PDO:
         .modal-footer { margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem; }
         .btn-cancel { background: #eee; border: none; padding: 0.8rem 1.2rem; border-radius: 8px; cursor: pointer; }
         .btn-save { background: var(--azul-primario); color: white; border: none; padding: 0.8rem 1.2rem; border-radius: 8px; cursor: pointer; }
+
+        /* Secciones */
+        .dashboard-section { display: none; }
+        .dashboard-section.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -45,12 +49,16 @@ $servicios_opciones = $pdo->query("SELECT nombre FROM servicios")->fetchAll(PDO:
 </header>
 
 <div class="dashboard-container">
-    <div class="nav-tabs-custom" style="justify-content: space-between; align-items: center;">
+
+    <div class="nav-tabs-custom">
         <div>
-            <a href="dashboard_gerente.php" class="tab-item active">Visitas Recientes</a>
+            <a href="#" class="tab-item active" onclick="mostrarSeccion('visitas', this)">Visitas</a>
+            <a href="#" class="tab-item" onclick="mostrarSeccion('servicios', this)">Servicios</a>
+            <a href="#" class="tab-item" onclick="mostrarSeccion('residentes', this)">Residentes</a>
+            <a href="#" class="tab-item" onclick="mostrarSeccion('empleados', this)">Empleados</a>
             <a href="usuarios/crear.php" class="tab-item">Crear Usuario</a>
         </div>
-        <button class="btn-service" onclick="abrirModalRegistro()">➕ Crear Servicio Adicional</button>
+        <button class="btn-service" id="btn-accion" onclick="abrirModalRegistro()">➕ Crear Servicio Adicional</button>
     </div>
 
     <div class="search-wrapper">
@@ -58,38 +66,81 @@ $servicios_opciones = $pdo->query("SELECT nombre FROM servicios")->fetchAll(PDO:
     </div>
 
     <!-- SECCIÓN 1: VISITAS -->
-    <div class="section-title">Visitas del Edificio</div>
-    <div class="content-box">
-        <table class="custom-table">
-            <thead>
-                <tr>
-                    <th>Residente Responsable</th>
-                    <th>Visitante / Cédula</th>
-                    <th>Apartamento</th>
-                    <th>Entrada / Salida</th>
-                    <th style="width: 80px;">Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="tabla_visitas"></tbody>
-        </table>
+    <div id="seccion-visitas" class="dashboard-section active">
+        <div class="section-title">Visitas del Edificio</div>
+        <div class="content-box">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Residente Responsable</th>
+                        <th>Visitante / Cédula</th>
+                        <th>Apartamento</th>
+                        <th>Entrada / Salida</th>
+                        <th style="width: 80px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla_visitas"></tbody>
+            </table>
+        </div>
     </div>
 
-    <!-- SECCIÓN 2: OTROS SERVICIOS -->
-    <div class="section-title">Otros Servicios Registrados</div>
-    <div class="content-box">
-        <table class="custom-table">
-            <thead>
-                <tr>
-                    <th>Personal de Servicio</th>
-                    <th>Cédula</th>
-                    <th>Tipo de Servicio</th>
-                    <th>Fecha / Hora</th>
-                    <th style="width: 100px;">Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="tabla_servicios"></tbody>
-        </table>
+    <!-- SECCIÓN 2: SERVICIOS -->
+    <div id="seccion-servicios" class="dashboard-section">
+        <div class="section-title">Otros Servicios Registrados</div>
+        <div class="content-box">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Personal de Servicio</th>
+                        <th>Cédula</th>
+                        <th>Tipo de Servicio</th>
+                        <th>Fecha / Hora</th>
+                        <th style="width: 100px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla_servicios"></tbody>
+            </table>
+        </div>
     </div>
+
+    <!-- SECCIÓN 3: RESIDENTES -->
+    <div id="seccion-residentes" class="dashboard-section">
+        <div class="section-title">Listado de Residentes</div>
+        <div class="content-box">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Residente</th>
+                        <th>Cédula</th>
+                        <th>Ubicación</th>
+                        <th>Teléfono</th>
+                        <th>Fecha Ingreso</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-residentes"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 4: EMPLEADOS -->
+    <div id="seccion-empleados" class="dashboard-section">
+        <div class="section-title">Personal y Turnos</div>
+        <div class="content-box">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Empleado</th>
+                        <th>Cargo</th>
+                        <th>Contacto</th>
+                        <th>Estado Hoy</th>
+                        <th>Turno Actual</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-empleados"></tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 
 <!-- Modal Registro Servicio -->
@@ -153,106 +204,6 @@ $servicios_opciones = $pdo->query("SELECT nombre FROM servicios")->fetchAll(PDO:
     </div>
 </div>
 
-<script>
-let visitasData = [];
-
-function cargarVisitas() {
-    fetch('../api/visitas/listado_gerente.php')
-    .then(res => res.json())
-    .then(data => {
-        visitasData = data;
-        renderizarTablas(data);
-    })
-    .catch(err => console.error("Error:", err));
-}
-
-function renderizarTablas(data) {
-    let htmlV = "";
-    let htmlS = "";
-    
-    data.forEach(v => {
-        const notasRaw = v.notas || '';
-        const esServicio = notasRaw.startsWith('[SERVICIO]');
-        
-        if (!esServicio) {
-            htmlV += `
-            <tr>
-                <td><strong>${v.residente_nombre}</strong></td>
-                <td><strong>${v.visitante_nombre}</strong><br><small>${v.visitante_cedula}</small></td>
-                <td>Apt. ${v.apartamento}</td>
-                <td>E: ${v.fecha_entrada_real || '--'}<br>S: ${v.fecha_salida || '--'}</td>
-                <td><button class="btn-delete" onclick="eliminarRegistro(${v.id})">🗑️</button></td>
-            </tr>`;
-        } else {
-            const nombreServicio = notasRaw.replace('[SERVICIO] ', '');
-            htmlS += `
-            <tr>
-                <td><strong>${v.visitante_nombre}</strong></td>
-                <td>${v.visitante_cedula}</td>
-                <td><span class="badge-status badge-edificio" style="background: var(--azul-primario); color: white;">${nombreServicio}</span></td>
-                <td>${v.fecha_programada}</td>
-                <td>
-                    <button class="btn-edit" onclick="abrirModalEdicion(${v.id}, '${v.visitante_nombre}', '${v.visitante_cedula}', '${v.fecha_programada}')">✏️</button>
-                    <button class="btn-delete" onclick="eliminarRegistro(${v.id})">🗑️</button>
-                </td>
-            </tr>`;
-        }
-    });
-
-    document.getElementById("tabla_visitas").innerHTML = htmlV || "<tr><td colspan='5' style='text-align:center;'>No hay visitas en este momento</td></tr>";
-    document.getElementById("tabla_servicios").innerHTML = htmlS || "<tr><td colspan='5' style='text-align:center;'>No hay servicios registrados en este momento</td></tr>";
-}
-
-function filtrar() {
-    const q = document.getElementById("buscador").value.toLowerCase();
-    const filtrados = visitasData.filter(v => 
-        v.visitante_nombre.toLowerCase().includes(q) || v.residente_nombre.toLowerCase().includes(q) || v.visitante_cedula.includes(q)
-    );
-    renderizarTablas(filtrados);
-}
-
-function eliminarRegistro(id) {
-    if (confirm("¿Eliminar permanentemente?")) {
-        const fd = new FormData(); fd.append('id', id);
-        fetch('../api/visitas/eliminar.php', { method: 'POST', body: fd })
-        .then(res => res.json()).then(res => { if(res.success) cargarVisitas(); else alert(res.error); });
-    }
-}
-
-function abrirModalRegistro() { document.getElementById('modalRegistro').style.display = 'block'; }
-function cerrarModals() { 
-    document.getElementById('modalRegistro').style.display = 'none'; 
-    document.getElementById('modalEdicion').style.display = 'none'; 
-}
-
-function abrirModalEdicion(id, nombre, cedula, fecha) {
-    document.getElementById('edit_id').value = id;
-    document.getElementById('edit_nombre').value = nombre;
-    document.getElementById('edit_cedula').value = cedula;
-    
-    let f = new Date(fecha);
-    let offset = f.getTimezoneOffset() * 60000;
-    let localISO = (new Date(f.getTime() - offset)).toISOString().slice(0, 16);
-    document.getElementById('edit_fecha').value = localISO;
-    
-    document.getElementById('modalEdicion').style.display = 'block';
-}
-
-document.getElementById('formRegistro').onsubmit = function(e) {
-    e.preventDefault();
-    fetch('../api/visitas/registrar_servicio.php', { method: 'POST', body: new FormData(this) })
-    .then(res => res.json()).then(res => { if(res.success) { cerrarModals(); cargarVisitas(); } else alert(res.error); });
-};
-
-document.getElementById('formEdicion').onsubmit = function(e) {
-    e.preventDefault();
-    fetch('../api/visitas/actualizar_servicio.php', { method: 'POST', body: new FormData(this) })
-    .then(res => res.json()).then(res => { if(res.success) { cerrarModals(); cargarVisitas(); } else alert(res.error); });
-};
-
-window.onclick = function(e) { if (e.target.className === 'modal') cerrarModals(); }
-setInterval(cargarVisitas, 15000);
-window.onload = cargarVisitas;
-</script>
+<script src="../assets/js/dashboard_gerente.js"></script>
 </body>
 </html>

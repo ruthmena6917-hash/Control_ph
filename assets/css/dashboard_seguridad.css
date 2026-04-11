@@ -1,0 +1,114 @@
+/* CSS específico para Dashboard de Seguridad - Basado en estilo del gerente */
+
+/* Contenedor de búsqueda */
+.search-wrapper {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Input de fecha en search wrapper */
+.search-wrapper .search-input:last-child {
+    max-width: 180px;
+}
+
+/* Botones de acción consistentes con estilo del gerente */
+.btn-action {
+    background: var(--azul-primario);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
+}
+
+.btn-action:hover {
+    background: var(--azul-claro);
+    transform: translateY(-1px);
+}
+
+.btn-action:last-child {
+    margin-right: 0;
+}
+
+/* Botones específicos por estado */
+.btn-action.entrada {
+    background: #28a745;
+}
+
+.btn-action.entrada:hover {
+    background: #218838;
+}
+
+.btn-action.salida {
+    background: #dc3545;
+}
+
+.btn-action.salida:hover {
+    background: #c82333;
+}
+
+/* Estilos para tabla de visitas */
+.custom-table td {
+    vertical-align: middle;
+    padding: 0.8rem;
+}
+
+/* Nombre del visitante */
+.custom-table .visitante-nombre {
+    font-weight: 600;
+    color: var(--texto-primario);
+}
+
+/* Mensaje de no hay visitas */
+.custom-table .no-visitas {
+    text-align: center;
+    color: var(--texto-suave);
+    padding: 2rem;
+    font-style: italic;
+}
+
+/* Texto para placas de vehículo */
+.custom-table .placa-na {
+    color: #ccc;
+    font-style: italic;
+}
+
+/* Espaciado para botones de acción */
+.custom-table td {
+    white-space: nowrap;
+}
+
+.custom-table .btn-action {
+    margin-right: 0.5rem;
+}
+
+/* Animaciones consistentes con el gerente */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.search-wrapper {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Mejoras visuales para tabla */
+.custom-table tr:hover {
+    background-color: rgba(30, 58, 95, 0.05);
+    transition: background-color 0.2s ease;
+}
+
+/* Estilos para badges de estado */
+.badge-status {
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+}

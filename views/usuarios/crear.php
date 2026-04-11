@@ -1,5 +1,5 @@
 <?php
-require_once '../../auth/session.php';
+require '../../auth/session.php';
 require_once '../../config/database.php';
 verificarRol(['gerente']);
 

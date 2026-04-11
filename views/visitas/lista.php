@@ -94,8 +94,9 @@ if (!$visita) {
 
                     <div class="border-top pt-4 mt-2">
                         <?php if ($visita['estado'] == 'pendiente'): ?>
-                            <form action="../../api/visitas/marcar_entrada.php" method="POST">
-                                <input type="hidden" name="visita_id" value="<?= $visita['id'] ?>">
+                            <form action="../../api/visitas/actualizar_estado.php" method="POST">
+                                <input type="hidden" name="estado" value="en_edificio">
+                                <input type="hidden" name="id" value="<?= $visita['id'] ?>">
                                 <div class="mb-3">
                                     <label class="form-label small">Confirmar Placa de Vehículo (opcional)</label>
                                     <input type="text" name="placa" class="search-input" placeholder="Ej: ABC-123" value="<?= $visita['placa_vehiculo'] ?>">
@@ -105,8 +106,9 @@ if (!$visita) {
                                 </button>
                             </form>
                         <?php elseif ($visita['estado'] == 'en_edificio'): ?>
-                            <form action="../../api/visitas/marcar_salida.php" method="POST">
-                                <input type="hidden" name="visita_id" value="<?= $visita['id'] ?>">
+                            <form action="../../api/visitas/actualizar_estado.php" method="POST">
+                                <input type="hidden" name="estado" value="finalizada">
+                                <input type="hidden" name="id" value="<?= $visita['id'] ?>">
                                 <button type="submit" class="btn-action w-100" style="background: var(--azul-primario); color: white; border: none; padding: 1rem; font-weight: 600;">
                                     🏁 MARCAR SALIDA DEL EDIFICIO
                                 </button>

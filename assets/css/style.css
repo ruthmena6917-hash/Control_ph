@@ -8,7 +8,7 @@
     --gris-borde: #DEE2E6;
     --texto-primario: #212529;
     --texto-suave: #6C757D;
-    
+
     /* Estados */
     --pendiente: #FFC107;
     --en-edificio: #28A745;
@@ -24,7 +24,7 @@ body {
     padding: 0;
 }
 
-/* Header Estilo Imagen */
+/* Header */
 .main-header {
     background-color: var(--azul-primario);
     color: white;
@@ -74,19 +74,36 @@ body {
 /* Tabs Navegación */
 .nav-tabs-custom {
     display: flex;
-    gap: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    border-bottom: 2px solid var(--gris-borde);
+    padding-bottom: 0.75rem;
+}
+
+.nav-tabs-custom > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
 }
 
 .tab-item {
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    border-radius: 6px 6px 0 0;
     text-decoration: none;
-    font-weight: 500;
-    background: white;
     color: var(--texto-suave);
-    border: 1px solid var(--gris-borde);
+    font-size: 0.875rem;
+    font-weight: 500;
     transition: all 0.2s;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.tab-item:hover {
+    color: var(--azul-primario);
+    background: var(--gris-fondo);
 }
 
 .tab-item.active {
@@ -123,10 +140,9 @@ body {
     font-weight: 700;
 }
 
-/* Colores de Valores */
-.value.pendiente { color: var(--pendiente); }
-.value.edificio { color: var(--en-edificio); }
-.value.finalizada { color: var(--finalizada); }
+.value.pendiente  { color: var(--pendiente);   }
+.value.edificio   { color: var(--en-edificio); }
+.value.finalizada { color: var(--finalizada);  }
 
 /* Tablas y Contenedores */
 .content-box {
@@ -164,6 +180,10 @@ body {
     border-bottom: 1px solid #F1F3F5;
 }
 
+.custom-table tr:last-child td {
+    border-bottom: none;
+}
+
 /* Badges de Estado */
 .badge-status {
     padding: 0.3rem 0.8rem;
@@ -173,9 +193,10 @@ body {
     display: inline-block;
 }
 
-.badge-pendiente { background-color: #FFF3CD; color: #856404; }
-.badge-edificio { background-color: #D4EDDA; color: #155724; }
+.badge-pendiente  { background-color: #FFF3CD; color: #856404; }
+.badge-edificio   { background-color: #D4EDDA; color: #155724; }
 .badge-finalizada { background-color: #E9ECEF; color: #495057; }
+.badge-cancelada  { background-color: #F8D7DA; color: #721C24; }
 
 /* Botones de Acción */
 .btn-action {
@@ -195,7 +216,7 @@ body {
 
 /* Filtros y Buscador */
 .search-wrapper {
-    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .search-input {
@@ -205,4 +226,31 @@ body {
     border: 1px solid var(--gris-borde);
     font-family: inherit;
     font-size: 0.95rem;
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--azul-claro);
+}
+
+/* Section title */
+.section-title {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--azul-primario);
+    font-weight: 700;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 20px;
+    background: var(--azul-primario);
+    border-radius: 4px;
 }
