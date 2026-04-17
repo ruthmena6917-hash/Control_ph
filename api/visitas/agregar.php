@@ -4,10 +4,9 @@ verificarRol(['seguridad', 'residente', 'admin']);
 require '../../config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = $_POST['nombre'];
-    $cedula = $_POST['cedula'];
-    $fecha  = $_POST['fecha'];
-    $estado = 'pendiente';
+   $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : '';
+   $cedula = isset($_POST['cedula']) ? $_POST['cedula'] : '';
+   $fecha  = isset($_POST['fecha']) ? $_POST['fecha'] : '';
 
     // Insertar la nueva visita
     // Nota: Si la tabla tiene campos adicionales como 'apto' o 'destino', 
