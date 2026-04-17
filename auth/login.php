@@ -3,8 +3,8 @@ session_start();
 
 require '../config/database.php';
 
-$username = $_POST['username'];
-$password = $_POST['password'];
+$username = isset($_POST['username']) ? $_POST['username'] : '';
+$password = isset($_POST['password']) ? $_POST['password'] : '';
 // Buscar usuario en la BD
 $sql = "SELECT u.id, u.nombre, u.activo, r.nombre AS rol, a.password_hash
         FROM usuarios u
