@@ -24,7 +24,7 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Mis Visitas - Control de Visitas</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css?v=2">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/dashboard_residente.css">
 </head>
@@ -33,8 +33,9 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <header class="main-header">
     <h1 class="header-title">Mis Visitas - Historial Completo</h1>
     <div class="user-info">
+        <a href="../dashboard_residente.php" class="btn-back">← Volver al Panel</a>
         <span><?= htmlspecialchars($_SESSION['nombre']) ?></span>
-        <a href="../dashboard_residente.php" class="btn-logout">Volver al Panel</a>
+        <a href="../../auth/logout.php" class="btn-logout">Salir</a>
     </div>
 </header>
 
@@ -43,7 +44,6 @@ $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="nav-tabs-custom">
     <div>
         <a href="#" class="tab-item active">Historial Completo</a>
-        <a href="../dashboard_residente.php" class="tab-item">Volver al Panel</a>
     </div>
 </div>
 

@@ -56,6 +56,7 @@ $servicios_opciones = $pdo->query("SELECT nombre FROM servicios")->fetchAll(PDO:
             <a href="#" class="tab-item" onclick="mostrarSeccion('servicios', this)">Servicios</a>
             <a href="#" class="tab-item" onclick="mostrarSeccion('residentes', this)">Residentes</a>
             <a href="#" class="tab-item" onclick="mostrarSeccion('empleados', this)">Empleados</a>
+            <a href="#" class="tab-item" onclick="mostrarSeccion('usuarios', this)">Usuarios</a>
             <a href="usuarios/crear.php" class="tab-item">Crear Usuario</a>
         </div>
         <button class="btn-service" id="btn-accion" onclick="abrirModalRegistro()">➕ Crear Servicio Adicional</button>
@@ -137,6 +138,26 @@ $servicios_opciones = $pdo->query("SELECT nombre FROM servicios")->fetchAll(PDO:
                     </tr>
                 </thead>
                 <tbody id="tabla-empleados"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 5: USUARIOS -->
+    <div id="seccion-usuarios" class="dashboard-section">
+        <div class="section-title">Gestión de Usuarios del Sistema</div>
+        <div class="content-box">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Usuario (Login)</th>
+                        <th>Rol</th>
+                        <th>Cédula / Contacto</th>
+                        <th>Estado</th>
+                        <th>Fecha Registro</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-usuarios"></tbody>
             </table>
         </div>
     </div>

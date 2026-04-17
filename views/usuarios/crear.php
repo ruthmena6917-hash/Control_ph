@@ -64,7 +64,7 @@ $roles = $pdo->query("SELECT id, nombre FROM roles WHERE nombre != 'visitante'")
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Usuario - Control Ph</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css?v=2">
     <style>
         .form-container {
             max-width: 500px;
@@ -118,7 +118,9 @@ $roles = $pdo->query("SELECT id, nombre FROM roles WHERE nombre != 'visitante'")
 <header class="main-header">
     <h1 class="header-title">Crear Nuevo Usuario</h1>
     <div class="user-info">
-        <a href="../dashboard_gerente.php" class="btn-logout">Volver al Panel</a>
+        <a href="../dashboard_gerente.php" class="btn-back">← Volver al Panel</a>
+        <span><?= htmlspecialchars($_SESSION['nombre']) ?></span>
+        <a href="../../auth/logout.php" class="btn-logout">Salir</a>
     </div>
 </header>
 

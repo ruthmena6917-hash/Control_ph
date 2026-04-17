@@ -33,7 +33,7 @@ try {
                 v.visitante_cedula,
                 v.fecha_programada,
                 v.fecha_entrada_real,
-                v.fecha_salida_real,
+                v.fecha_salida,
                 v.estado,
                 v.notas,
                 r.nombre AS residente_nombre,
@@ -67,8 +67,8 @@ try {
         $visita['fecha_entrada_real'] = $visita['fecha_entrada_real'] 
             ? date('Y-m-d H:i', strtotime($visita['fecha_entrada_real'])) 
             : null;
-        $visita['fecha_salida_real'] = $visita['fecha_salida_real'] 
-            ? date('Y-m-d H:i', strtotime($visita['fecha_salida_real'])) 
+        $visita['fecha_salida'] = $visita['fecha_salida'] 
+            ? date('Y-m-d H:i', strtotime($visita['fecha_salida'])) 
             : null;
     }
     

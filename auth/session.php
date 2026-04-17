@@ -13,7 +13,7 @@ function verificarRol($rolesPermitidos){
     verificar_sesion();
 
     if (!isset($_SESSION['rol']) || !in_array($_SESSION['rol'], $rolesPermitidos)) {
-        header("Location: /Control_ph/views/login.php");
+        header("Location: /control_visitas/views/login.php");
         exit;
     }
 }

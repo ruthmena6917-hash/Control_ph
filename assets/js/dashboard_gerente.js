@@ -106,10 +106,21 @@ function renderizarTablas(data) {
 
 function filtrar() {
     const q = document.getElementById("buscador").value.toLowerCase();
-    const filtrados = visitasData.filter(v => 
-        v.visitante_nombre.toLowerCase().includes(q) || v.residente_nombre.toLowerCase().includes(q) || v.visitante_cedula.includes(q)
-    );
-    renderizarTablas(filtrados);
+    const activa = document.querySelector('.tab-item.active').textContent.toLowerCase();
+
+    if (activa.includes('visitas') || activa.includes('servicios')) {
+        const filtrados = visitasData.filter(v => 
+            (v.visitante_nombre && v.visitante_nombre.toLowerCase().includes(q)) || 
+            (v.residente_nombre && v.residente_nombre.toLowerCase().includes(q)) || 
+            (v.visitante_cedula && v.visitante_cedula.includes(q))
+        );
+        renderizarTablas(filtrados);
+    } else if (activa.includes('usuarios')) {
+        const filtrados = visitasData.filter(u => 
+            u.nombre.toLowerCase().includes(q) || u.cedula.includes(q) || (u.username && u.username.toLowerCase().includes(q))
+        );
+        renderizarUsuarios(filtrados);
+    }
 }
 
 function eliminarRegistro(id) {
@@ -159,6 +170,7 @@ function mostrarSeccion(seccion, el) {
     document.getElementById('seccion-servicios').style.display  = 'none';
     document.getElementById('seccion-residentes').style.display = 'none';
     document.getElementById('seccion-empleados').style.display  = 'none';
+    document.getElementById('seccion-usuarios').style.display   = 'none';
 
     // Mostrar la sección seleccionada
     document.getElementById('seccion-' + seccion).style.display = 'block';
@@ -173,11 +185,48 @@ function mostrarSeccion(seccion, el) {
     if (seccion === 'servicios')  { btn.textContent = '➕ Crear Servicio Adicional'; btn.onclick = abrirModalRegistro; btn.style.display = 'block'; }
     if (seccion === 'residentes') { btn.style.display = 'none'; }
     if (seccion === 'empleados')  { btn.style.display = 'none'; }
+    if (seccion === 'usuarios')   { btn.style.display = 'none'; }
 
     // Cargar datos según sección
     if (seccion === 'visitas' || seccion === 'servicios') cargarVisitas();
     if (seccion === 'residentes') cargarResidentes();
     if (seccion === 'empleados')  cargarEmpleados();
+    if (seccion === 'usuarios')   cargarUsuarios();
+}
+
+function cargarUsuarios() {
+    fetch('../api/usuarios/listar.php')
+        .then(res => res.json())
+        .then(data => {
+            visitasData = data; 
+            renderizarUsuarios(data);
+        })
+        .catch(err => console.error('Error cargando usuarios:', err));
+}
+
+function renderizarUsuarios(data) {
+    let html = '';
+    if (data.length === 0) {
+        html = '<tr><td colspan="6" style="text-align:center">No hay usuarios registrados</td></tr>';
+    } else {
+        data.forEach(u => {
+            const estado = u.activo == 1 
+                ? '<span class="badge-status badge-edificio" style="background:#28a745;color:white;">Activo</span>' 
+                : '<span class="badge-status badge-finalizada" style="background:#dc3545;color:white;">Inactivo</span>';
+            
+            html += `
+                <tr>
+                    <td><strong>${u.nombre}</strong></td>
+                    <td><code style="background:#f4f6f9;padding:2px 5px;border-radius:4px;">@${u.username || 'sin_login'}</code></td>
+                    <td><span class="badge-status" style="border:1px solid #ccc;">${u.rol_nombre.toUpperCase()}</span></td>
+                    <td>${u.cedula}<br><small>${u.email || ''}</small></td>
+                    <td>${estado}</td>
+                    <td>${u.fecha_creacion.slice(0,10)}</td>
+                </tr>
+            `;
+        });
+    }
+    document.getElementById('tabla-usuarios').innerHTML = html;
 }
 
 function cargarResidentes() {

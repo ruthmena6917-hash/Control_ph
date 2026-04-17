@@ -40,7 +40,7 @@ try {
     if ($estado === 'finalizada') {
         $sql = "UPDATE visitas 
                 SET estado = 'finalizada',
-                    fecha_salida_real = NOW()
+                    fecha_salida = NOW()
                 WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':id' => $id]);

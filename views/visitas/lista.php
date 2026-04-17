@@ -35,12 +35,13 @@ if (!$visita) {
     <title>Validación de Visita - Control de Visitas</title>
     <!-- Bootstrap 5 CSS para estructura base -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css?v=2">
 </head>
 <body>
     <header class="main-header">
         <h1 class="header-title">Detalle y Validación</h1>
         <div class="user-info">
+            <a href="../dashboard_seguridad.php" class="btn-back">← Volver al Panel</a>
             <span><?= $_SESSION['nombre'] ?></span>
             <a href="../../auth/logout.php" class="btn-logout">Salir</a>
         </div>
@@ -48,8 +49,9 @@ if (!$visita) {
 
     <main class="dashboard-container">
         <div class="nav-tabs-custom">
-            <a href="../dashboard_seguridad.php" class="tab-item">← Volver al Panel</a>
-            <a href="#" class="tab-item active">Ficha de Validación</a>
+            <div>
+                <a href="#" class="tab-item active">Ficha de Validación</a>
+            </div>
         </div>
 
         <?php if ($visita): ?>
