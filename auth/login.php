@@ -18,7 +18,7 @@ $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 //verificar que el ususario existe y está activo
-if (!$usuario || $usuario['activo'] != 1){
+if (!$usuario || $usuario['activo'] != "1"){
         header("Location: ../views/login.php?error=1");
         exit();
 }
