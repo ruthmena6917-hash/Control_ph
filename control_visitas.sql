@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `apartamentos` (
   `id` int(11) NOT NULL,
   `numero` varchar(10) NOT NULL,
+  `torre` varchar(10) NOT NULL DEFAULT '1',
   `piso` int(11) NOT NULL DEFAULT 1,
   `tipo` varchar(30) DEFAULT NULL,
   `activo` tinyint(1) NOT NULL DEFAULT 1
@@ -39,12 +40,12 @@ CREATE TABLE `apartamentos` (
 -- Volcado de datos para la tabla `apartamentos`
 --
 
-INSERT INTO `apartamentos` (`id`, `numero`, `piso`, `tipo`, `activo`) VALUES
-(1, '101', 1, '1 cuarto', 1),
-(2, '102', 1, '2 cuartos', 1),
-(3, '201', 2, '1 cuarto', 1),
-(4, '202', 2, 'estudio', 1),
-(5, '301', 3, '2 cuartos', 1);
+INSERT INTO `apartamentos` (`id`, `numero`, `torre`, `piso`, `tipo`, `activo`) VALUES
+(1, '101', '1', 1, '1 cuarto', 1),
+(2, '102', '1', 1, '2 cuartos', 1),
+(3, '201', '2', 2, '1 cuarto', 1),
+(4, '202', '2', 2, 'estudio', 1),
+(5, '301', '3', 3, '2 cuartos', 1);
 
 -- --------------------------------------------------------
 
@@ -173,7 +174,11 @@ INSERT INTO `roles` (`id`, `nombre`, `descripcion`) VALUES
 (1, 'gerente', 'Administra el residencial completo'),
 (2, 'seguridad', 'Controla entradas y salidas en portería'),
 (3, 'residente', 'Vive en el edificio, puede registrar visitas'),
-(4, 'visitante', 'Persona externa sin acceso al sistema');
+(4, 'visitante', 'Persona externa sin acceso al sistema'),
+(5, 'recepcionista', 'Gestión de front-desk y atención'),
+(6, 'limpieza', 'Personal de aseo y servicios generales'),
+(7, 'mantenimiento', 'Personal técnico del edificio'),
+(8, 'cocina', 'Personal de restaurante/cafetería');
 
 -- --------------------------------------------------------
 
@@ -255,6 +260,7 @@ CREATE TABLE `usuarios` (
   `cedula` varchar(20) NOT NULL,
   `telefono` varchar(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
+  `foto_url` varchar(255) DEFAULT NULL,
   `activo` tinyint(1) NOT NULL DEFAULT 1,
   `fecha_creacion` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -305,6 +311,7 @@ CREATE TABLE `visitas` (
   `registrado_por` int(11) NOT NULL,
   `validado_por` int(11) DEFAULT NULL,
   `turno_id` int(11) DEFAULT NULL,
+  `foto_url` varchar(255) DEFAULT NULL,
   `notas` text DEFAULT NULL,
   `fecha_creacion` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -479,6 +486,28 @@ ALTER TABLE `turnos`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Estructura de tabla para la tabla `empleados_externos`
+--
+
+CREATE TABLE `empleados_externos` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `cedula` varchar(20) NOT NULL,
+  `empresa` varchar(100) DEFAULT NULL,
+  `servicio_tipo` varchar(50) NOT NULL,
+  `codigo_qr` varchar(100) NOT NULL,
+  `foto_url` varchar(255) DEFAULT NULL,
+  `activo` tinyint(1) NOT NULL DEFAULT 1,
+  `fecha_creacion` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- AUTO_INCREMENT de la tabla `empleados_externos`
+--
+ALTER TABLE `empleados_externos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculos_visita`

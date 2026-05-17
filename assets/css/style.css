@@ -281,3 +281,19 @@ body {
     background: var(--azul-primario);
     border-radius: 4px;
 }
+/* --- Responsivo --- */
+@media (max-width: 768px) {
+    .main-header { flex-direction: column; padding: 1rem; text-align: center; gap: 1rem; }
+    .user-info { flex-direction: column; gap: 0.5rem; }
+    .nav-tabs-custom { flex-direction: column; align-items: stretch; }
+    .nav-tabs-custom > div { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+    .tab-item { text-align: center; border-radius: 6px; padding: 0.8rem 0.5rem; background: #eee; }
+    .content-box { overflow-x: auto; }
+    .custom-table { min-width: 600px; }
+    .card-stat { padding: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .nav-tabs-custom > div { grid-template-columns: 1fr; }
+    .header-title { font-size: 1.1rem; }
+}
